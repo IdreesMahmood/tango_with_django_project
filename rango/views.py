@@ -3,8 +3,7 @@ from django.http import HttpResponse
 from django.core.urlresolvers import reverse
 from rango.models import Category
 from rango.models import Page
-from rango.forms import CategoryForm
-from rango.forms import PageForm
+from rango.forms import CategoryForm, PageForm
 
 def index(request):
 
@@ -43,10 +42,11 @@ def add_category(request):
         form = CategoryForm(request.POST)
 
         if form.is_valid():
-            form.save(commit=True)
+            category = form.save(commit=True)
+            print(category, category.slug)
             return index(request)
-    else:
-        print(form.errors)
+        else:
+            print(form.errors)
 
     return render(request, 'rango/add_category.html', {'form': form})
 
