@@ -51,13 +51,16 @@ def index(request):
     return response
 
 def about(request):
-    if request.session.test_cookie_worked():
-        print("TEST COOKIE WORKED!")
-        request.session.delete_test_cookie()
-        
+    #if request.session.test_cookie_worked():
+    #    print("TEST COOKIE WORKED!")
+    #    request.session.delete_test_cookie()
+    request.session.set_test_cookie()
+    visitor_cookie_handler(request)
+    context_dict = {'categories': category_list, 'pages': page_list}
+    context_dict['visits'] = request.session['visits']
     print(request.method)
     print(request.user)
-    return render(request, 'rango/about.html', {})
+    return render(request, 'rango/about.html', context=context_dict)
 
 def show_category(request, category_name_slug):
 
